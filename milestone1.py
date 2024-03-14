@@ -1,27 +1,29 @@
 import zmq
 
+# connect to the server
 context = zmq.Context()
-
 print("connecting to server...")
 socket = context.socket(zmq.REQ)
 socket.connect("tcp://localhost:5555")
 
+# initialize variables
+greeting = "Welcome to Caloric Balance Calculator!"
 about = "Caloric Balance Calculator (CBC) is a text-based program that calculates the difference between\n" \
     "calories consumed and calories burned in one day. Use your keyboard to enter numbers or select\n" \
     "options as prompted by the text. CBC will ask for your total calorie consumption for the day \n" \
     "and your activity level. Maintain a negative balance to effect weight loss and a positive balance\n" \
     "for weight gain."
-
-print("Welcome to Caloric Balance Calculator!\n")
-
+goodbye = "Thanks for using Caloric Balance Calculator, goodbye!"
 
 def use_microservice(list_request):
+    """Sends user-provided list to microservice then receives and prints the result."""
     socket.send_json(list_request)
     balance = socket.recv_string()
     print(balance)
 
 
 def activity_converter(selection_3):
+    """Converts user-input number to the corresponding string for microservice communication."""
     if selection_3 == "1":
         return "sedentary"
     elif selection_3 == "2":
@@ -35,10 +37,11 @@ def activity_converter(selection_3):
 
 
 def get_input():
+    """Gathers user's calories consumed and activity level then returns them as a list in that order."""
     while True:
         selection_2 = input("Enter the total calories consumed today or \"z\" to cancel: ")
         if selection_2 == "z":
-            return "home screen"
+            return "home screen"  # home_screen() function checks for this to return to initial menu
         elif selection_2.isdigit():
             selection_3 = input(
                 "What is your activity level? Enter a number:\n"
@@ -47,13 +50,14 @@ def get_input():
                 "\n    3. Moderate"
                 "\n    4. Active\n"
             )
-            selection_3 = activity_converter(selection_3)
+            selection_3 = activity_converter(selection_3)  # converts from a number to a corresponding string
             return [selection_2, selection_3]
         else:
             print("Invalid input")
 
 
 def home_screen():
+    """Gathers user input to navigate the application."""
     selection_1 = input(
         "Enter a number to select an option:\n"
         "\n    1. About Caloric Balance Calculator (25 second read)"
@@ -64,7 +68,7 @@ def home_screen():
         print(about)
     elif selection_1 == "2":
         list_request = get_input()
-        if list_request == "home screen":
+        if list_request == "home screen":  # loops user back to initial selection screen
             pass
         else:
             use_microservice(list_request)
@@ -74,6 +78,13 @@ def home_screen():
         print("Invalid input")
 
 
-while True:
-    if home_screen() == "exit":
-        break
+def main():
+    print(greeting)
+    while True:
+        if home_screen() == "exit":
+            break
+    print(goodbye)
+
+
+if __name__ == "__main__":
+    main()
