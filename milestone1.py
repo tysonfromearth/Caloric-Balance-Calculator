@@ -62,7 +62,7 @@ def get_input():
 
 
 def home_screen():
-    """Gathers user input to navigate the application."""
+    """Gathers user input to navigate the application and use a microservice that calculates caloric balance."""
     selection_1 = input(input1)
     if selection_1 == "1":
         print(about)
