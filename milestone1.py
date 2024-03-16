@@ -1,4 +1,5 @@
 import zmq
+from playsound import playsound
 
 # connect to the server
 context = zmq.Context()
@@ -66,6 +67,7 @@ def home_screen():
     selection_1 = input(input1)
     if selection_1 == "1":
         print(about)
+        playsound('./about.mp3')
     elif selection_1 == "2":
         list_request = get_input()
         if list_request == "home screen":  # loops user back to initial selection screen
