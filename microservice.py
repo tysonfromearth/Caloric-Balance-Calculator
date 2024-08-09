@@ -28,6 +28,11 @@ def main():
     print("Server running")  # Check if server is running
 
     while True:
+        # check if exit
+        exit_string = socket.recv_string()
+        if exit_string == 'exit':
+            break
+
         # Receive data from client
         data = socket.recv_json()
 

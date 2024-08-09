@@ -78,6 +78,7 @@ def home_screen():
         else:
             use_microservice(list_request)
     elif selection_1 == "3":
+        socket.send_string('exit')
         return "exit"
     else:
         print("Invalid input")
