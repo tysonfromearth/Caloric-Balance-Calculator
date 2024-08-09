@@ -16,8 +16,6 @@ def calculate(activity, cals):
         activity_calories = 850
     elif activity == 'active':
         activity_calories = 1000
-    else:
-        activity_calories = 0
     return int(cals) - bmr - activity_calories
 
 
