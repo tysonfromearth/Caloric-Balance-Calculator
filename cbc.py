@@ -10,20 +10,20 @@ socket.connect("tcp://localhost:5555")
 # initialize variables
 greeting = "Welcome to Caloric Balance Calculator!"
 input1 = "Enter a number to select an option:\n" \
-        "\n    1. About Caloric Balance Calculator (25 second read)" \
-        "\n    2. Calculate Caloric Balance" \
-        "\n    3. Exit\n"
+         "\n    1. About Caloric Balance Calculator (25 second read)" \
+         "\n    2. Calculate Caloric Balance" \
+         "\n    3. Exit\n"
 about = "Caloric Balance Calculator (CBC) is a text-based program that calculates the difference between\n" \
-    "calories consumed and calories burned in one day. Use your keyboard to enter numbers or select\n" \
-    "options as prompted by the text. CBC will ask for your total calorie consumption for the day \n" \
-    "and your activity level. Maintain a negative balance to effect weight loss and a positive balance\n" \
-    "for weight gain."
+        "calories consumed and calories burned in one day. Use your keyboard to enter numbers or select\n" \
+        "options as prompted by the text. CBC will ask for your total calorie consumption for the day \n" \
+        "and your activity level. Maintain a negative balance to effect weight loss and a positive balance\n" \
+        "for weight gain."
 input2 = "Enter the total calories consumed today or \"z\" to cancel: "
 input3 = "What is your activity level? Enter a number:\n" \
-                "\n    1. Sedentary" \
-                "\n    2. Light" \
-                "\n    3. Moderate" \
-                "\n    4. Active\n"
+         "\n    1. Sedentary" \
+         "\n    2. Light" \
+         "\n    3. Moderate" \
+         "\n    4. Active\n"
 goodbye = "Thanks for using Caloric Balance Calculator, goodbye!"
 
 
@@ -45,7 +45,7 @@ def activity_converter(selection_3):
     elif selection_3 == "4":
         return "active"
     else:
-        print("Invalid input")
+        return 'Invalid input'
 
 
 def get_input():
@@ -54,10 +54,13 @@ def get_input():
         selection_2 = input(input2)
         if selection_2 == "z":
             return "home screen"  # home_screen() function checks for this to return to initial menu
-        elif selection_2.isdigit():
+        elif selection_2.isdigit() and int(selection_2) >= 0:
             selection_3 = input(input3)
-            selection_3 = activity_converter(selection_3)  # converts from a number to a corresponding string
-            return [selection_2, selection_3]
+            if selection_3.isdigit() and 1 <= int(selection_3) <= 4:
+                selection_3 = activity_converter(selection_3)  # converts from a number to a corresponding string
+                return [selection_2, selection_3]
+            else:
+                print('Invalid input')
         else:
             print("Invalid input")
 
@@ -81,6 +84,7 @@ def home_screen():
 
 
 def main():
+
     print(greeting)
     while True:
         if home_screen() == "exit":
